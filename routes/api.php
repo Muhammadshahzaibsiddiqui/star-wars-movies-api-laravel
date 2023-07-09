@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FilmController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +17,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login');
+    Route::post('/register', 'register');
+});
+
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::controller(FilmController::class)->group(function () {
+        Route::get('/films', 'index');
+        Route::put('/films/{film}', 'update');
+        Route::delete('/films/{film}', 'destroy');
+    });
 });

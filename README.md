@@ -1,66 +1,156 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Getting Started
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+To run the Laravel application and set up the required environment, follow these steps:
 
-## About Laravel
+1. Install Dependencies: `composer update`
+2. Set Environment Variables:
+   - Duplicate the `.env.example` file and rename it to `.env`.
+   - Open the `.env` file and set the necessary environment variables, such as the database connection details and JWT secret key.
+3. Generate Application Key: `php artisan key:generate`
+4. Run Database Migrations: `php artisan migrate`
+5. Start the Development Server: `php aritsan serve`
+# My Star War API
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This API provides endpoints for managing films.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Authentication
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `POST /login`: Log in and obtain a JWT token.
 
-## Learning Laravel
+   **Parameters:**
+   - `email` (string, required): The email of the user.
+   - `password` (string, required): The password of the user.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+   **Request:**
+    ```json
+    {
+        "email": "shahzaib@gmail.com",
+        "password": "password123"
+    }
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+  **Response:**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Status Code: 200 (OK)
+    ```json
+    {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjIzNTUxNzI1LCJleHAiOjE2MjM1NTUzMjV9.kNRsqg2KlThiQ16gyK-ZdjXGwKBE3FAmXfJUeRskz_c"
+    }
+    ```
 
-## Laravel Sponsors
+- `POST /register`: Register a new user.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+   **Parameters:**
+   - `name` (string, required): The name of the user.
+   - `email` (string, required): The email of the user.
+   - `password` (string, required): The password of the user.
 
-### Premium Partners
+   **Request:**
+   ```json
+    {
+       "name": "Shahzaib",
+       "email": "shahzaib@gmail.com",
+       "password": "password123",
+    }
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+     **Response:**
 
-## Contributing
+    Status Code: 200 (OK)
+    ```json
+    {
+      "message": "Registration successful"
+    }
+    ```
+## Sending Bearer Token
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+To access the protected routes that require authentication, you need to include the JWT token in the request headers as a Bearer token.
 
-## Code of Conduct
+**Example:**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjIzNTUxNzI1LCJleHAiOjE2MjM1NTUzMjV9.kNRsqg2KlThiQ16gyK-ZdjXGwKBE3FAmXfJUeRskz_c`
+## Films
 
-## Security Vulnerabilities
+- `GET /films`: Retrieve a list of films.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   **Parameters:**
+   - `search` (string, optional): Search films by title criteria.
+  
+   **Response:**
 
-## License
+    Status Code: 200 (OK)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```json
+    {
+      "data": [
+        {
+            "id": 1,
+            "title": "A New Hope",
+            "episode_id": 4,
+            "opening_crawl": "It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe   evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal    secret\r\nplans to the Empire's\r\nultimate weapon, the DEATH\r\nSTAR, an armored   space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued  by the Empire's\r\nsinister agents, Princess\r\nLeia races home aboard    her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and   restore\r\nfreedom to the galaxy....",
+            "director": "George Lucas",
+            "producer": "Gary Kurtz, Rick McCallum",
+            "release_date": "1977-05-25",
+            "film_created_at": "2014-12-10 14:23:31",
+            "film_edited_at": "2014-12-20 19:49:45",
+            "created_at": "2023-07-09T12:18:53.000000Z",
+            "updated_at": "2023-07-09T12:18:53.000000Z",
+            "deleted_at": null
+        },
+        ...
+      ]
+    }
+    ```
+- `PUT /films/{id}`: Update a specific film.
+
+    **Parameters:**
+   - `title` (string, required): The updated title of the film.
+   - `episode_id` (integer, required): The updated episode ID of the film.
+   - `director` (string, required): The updated director of the film.
+   - `producer` (string, required): The updated producer of the film.
+   - `opening_crawl` (string, required): The updated opening crawl of the film.
+   - `release_date` (string, required): The updated release date of the film.
+
+   **Request:**
+    ```json
+    {
+       "title": "Updated Film Title",
+       "episode_id": 5,
+       "director": "Updated Film Director",
+       "producer": "Updated Film Producer",
+       "opening_crawl": "Updated Film Opening Crawl",
+       "release_date": "2022-01-01"
+    }
+    ```
+    **Response:**
+
+    Status Code: 200 (OK)
+    ```json
+    {
+      "message": "Film updated successfully",
+      "data": {
+        "id": 1,
+        "title": "Updated Film Title",
+        "episode_id": 5,
+        "director": "Updated Film Director",
+        "producer": "Updated Film Producer",
+        "opening_crawl": "Updated Film Opening Crawl",
+        "release_date": "2022-01-01"
+      }
+    }
+    ```
+- `DELETE /films/{id}`: Delete a specific film.
+  
+    **Parameters:**
+    - `id` (integer, required): The ID of the film to delete.
+
+    **Response:**
+    Status Code: 200 (OK)
+    
+    ```json
+    {
+      "message": "Movie deleted successfully"
+    }
+    ```
+
+
