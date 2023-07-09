@@ -6,6 +6,10 @@ To run the Laravel application and set up the required environment, follow these
 2. Set Environment Variables:
    - Duplicate the `.env.example` file and rename it to `.env`.
    - Open the `.env` file and set the necessary environment variables, such as the database connection details and JWT secret key.
+    - **Additional Environment Variables:**
+       - `FILM_API_URL` (string): The URL of the external film API. Example: `https://swapi.dev/api/films`
+       - `FILM_API_DATA_CACHE_DURATION` (integer): The duration in minutes to cache the film API data. Example: `60`
+
 3. Generate Application Key: `php artisan key:generate`
 4. Run Database Migrations: `php artisan migrate`
 5. Start the Development Server: `php aritsan serve`
