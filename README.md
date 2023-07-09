@@ -9,10 +9,10 @@ To run the Laravel application and set up the required environment, follow these
     - **Additional Environment Variables:**
        - `FILM_API_URL` (string): The URL of the external film API. Example: `https://swapi.dev/api/films`
        - `FILM_API_DATA_CACHE_DURATION` (integer): The duration in minutes to cache the film API data. Example: `60`
-
-3. Generate Application Key: `php artisan key:generate`
-4. Run Database Migrations: `php artisan migrate`
-5. Start the Development Server: `php aritsan serve`
+4. Generate Application Key: `php artisan key:generate`
+5. Generate the JWT secret Key:: `php artisan jwt:secret`
+6. Run Database Migrations: `php artisan migrate`
+7. Start the Development Server: `php aritsan serve`
 # My Star War API
 
 This API provides endpoints for managing films.
