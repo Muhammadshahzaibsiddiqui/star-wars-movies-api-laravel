@@ -13,6 +13,7 @@ To run the Laravel application and set up the required environment, follow these
 5. Generate the JWT secret Key:: `php artisan jwt:secret`
 6. Run Database Migrations: `php artisan migrate`
 7. Start the Development Server: `php aritsan serve`
+8. The API will be accessible at `http://localhost:8000/api` by default. You can access the films endpoint at `http://localhost:8000/api/films`.
 # My Star War API
 
 This API provides endpoints for managing films.
