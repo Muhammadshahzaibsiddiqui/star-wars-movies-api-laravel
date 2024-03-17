@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\FilmApiService;
+
+use App\Repositories\Interfaces\MovieRepositoryInterface;
+use App\Services\MovieService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,16 +14,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(FilmApiService::class, function ($app) {
-            return new FilmApiService();
-        });
+        $this->app->bind(MovieRepositoryInterface::class, MovieService::class);
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(): array
     {
-        //
+        return [ MovieRepositoryInterface::class ];
     }
 }
